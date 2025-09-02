@@ -1,8 +1,8 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-import DashboardView from '../Views/DashboardView.vue'
-import CustomersView from '../Views/CustomersView.vue'
-import SettingsView from '../Views/SettingsView.vue'
+import DashboardView from '../views/DashboardView.vue'
+import CustomersView from '../views/CustomersView.vue'
+import SettingsView from '../views/SettingsView.vue'
 import CustomerForm from "@/views/CustomerForm.vue"
 
 
