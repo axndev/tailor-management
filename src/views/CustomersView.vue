@@ -34,6 +34,7 @@ async function trashCustomer(id) {
 
         customers.value = customers.value.filter(customer => customer.id !== id);
         trashCustomers.value = customers.value.filter(customer => customer.isDeleted == true);
+        savedCustomer();
     } catch (e) {
         console.error("Failed to delete", e);
     }
@@ -49,6 +50,7 @@ async function restoreCustomer(id) {
 
         customers.value = customers.value.filter(customer => customer.id !== id);
         trashCustomers.value = customers.value.filter(customer => customer.isDeleted == true);
+        savedCustomer();
     } catch (e) {
         console.error("Failed to delete", e);
     }
@@ -62,6 +64,7 @@ async function deleteCustomer(id) {
     try {
         await axios.delete(`${API_URL}/customers/${id}`);
         console.log("Customer deleted successfully");
+        savedCustomer();
     } catch (e) {
         console.error("Failed to delete", e);
     }
