@@ -9,13 +9,15 @@ const trash = ref(false);
 const bulkAction = ref(""); // current action from dropdown
 const selectedCustomers = ref([]); // track selected customers
 
+const API_URL = "https://tailor-management.onrender.com/";
+
 
 const savedCustomer = async () => {
     try {
-        const response = await axios.get('http://localhost:3000/customers?isDeleted=false');
+        const response = await axios.get(`${API_URL}/customers?isDeleted=false`);
         customers.value = response.data;
 
-        const trashData = await axios.get('http://localhost:3000/customers?isDeleted=true')
+        const trashData = await axios.get(`${API_URL}/customers?isDeleted=true`)
         trashCustomers.value = trashData.data;
     } catch (e) {
         console.log(e);
@@ -26,7 +28,7 @@ async function trashCustomer(id) {
     try {
         const customer = customers.value.find(c => c.id === id);
         if (!customer) return;
-        await axios.patch(`http://localhost:3000/customers/${id}`, {
+        await axios.patch(`${API_URL}/customers/${id}`, {
             isDeleted: true
         });;
 
@@ -41,7 +43,7 @@ async function restoreCustomer(id) {
     try {
         const customer = trashCustomers.value.find(c => c.id === id);
         if (!customer) return;
-        await axios.patch(`http://localhost:3000/customers/${id}`, {
+        await axios.patch(`${API_URL}/customers/${id}`, {
             isDeleted: false
         });;
 
@@ -58,7 +60,7 @@ async function deleteCustomer(id) {
     if (!confirmDelete) return; // if user clicks cancel, stop here
 
     try {
-        await axios.delete(`http://localhost:3000/customers/${id}`);
+        await axios.delete(`${API_URL}/customers/${id}`);
         console.log("Customer deleted successfully");
     } catch (e) {
         console.error("Failed to delete", e);

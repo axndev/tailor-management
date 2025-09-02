@@ -5,16 +5,17 @@ import { onMounted, ref, computed } from 'vue';
 const totalCustomers = ref([]);
 const customers = ref([]);
 const trashCustomers = ref({});
+const API_URL = "https://tailor-management.onrender.com/";
 
 const savedCustomer = async () => {
     try {
-        const all = await axios.get('http://localhost:3000/customers');
+        const all = await axios.get(`${API_URL}/customers`);
         totalCustomers.value = all.data;
 
-        const response = await axios.get('http://localhost:3000/customers?isDeleted=false');
+        const response = await axios.get(`${API_URL}/customers?isDeleted=false`);
         customers.value = response.data;
 
-        const trashData = await axios.get('http://localhost:3000/customers?isDeleted=true')
+        const trashData = await axios.get(`${API_URL}/customers?isDeleted=true`)
         trashCustomers.value = trashData.data;
     } catch (e) {
         console.log(e);

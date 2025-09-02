@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const API_URL = "https://tailor-management.onrender.com/";
 
 const props = defineProps({
     mode: { type: String, default: "create" }, // create | edit | view
@@ -59,7 +60,7 @@ const customer = reactive({
 // Load data if edit/view
 onMounted(async () => {
     if (props.id) {
-        const res = await axios.get(`http://localhost:3000/customers/${props.id}`)
+        const res = await axios.get(`${API_URL}/customers/${props.id}`)
         Object.assign(customer, res.data)
     }
 
@@ -68,11 +69,11 @@ onMounted(async () => {
 const saveCustomer = async () => {
     if (customer.name !== '') {
         if (props.mode === "create") {
-            await axios.post("http://localhost:3000/customers", customer);
+            await axios.post(`${API_URL}/customers`, customer);
             router.push(`/customers`);
         } else if (props.mode === "edit") {
             customer.updated_at = new Date().toISOString();
-            await axios.put(`http://localhost:3000/customers/${props.id}`, customer);
+            await axios.put(`${API_URL}/customers/${props.id}`, customer);
             router.push(`/customers`);
         }
     }
