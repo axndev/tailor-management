@@ -64,14 +64,14 @@ const monthlyCustomers = computed(() => {
 
 <template>
 
-    <div class="w-full lg:w-[80vw] md:p-10 p-5">
-        <h2 class="text-2xl text-gray-600 font-bold">Dashboard</h2>
+    <div class="w-full lg:w-[80vw] md:p-10 p-5 bg-indigo-gray-50 pb-20 lg:pb-5">
+        <h2 class="text-2xl text-gray-600 font-bold hidden lg:block">Dashboard</h2>
         <div class="flex justify-center items-center h-full w-full">
-            <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-6 p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-6 ">
 
                 <!-- Total Customers -->
                 <div class="bg-white p-5 border-l-4 border-sky-500 rounded-lg shadow">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between ">
                         <div>
                             <p class="text-gray-600 text-sm font-medium">Total Customers</p>
                             <h3 class="text-3xl font-bold text-gray-800 my-5">{{ totalCustomers.length }}</h3>

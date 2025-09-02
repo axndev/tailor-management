@@ -139,9 +139,9 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
 </script>
 
 <template>
-    <div class="md:p-10 p-5 bg-gray-50 w-full lg:w-[80vw]  overflow-y-auto">
+    <div class="md:p-10 lg:p-5 bg-gray-50 w-full lg:w-[80vw]  overflow-y-auto">
         <form
-            class="max-full mx-auto bg-white border rounded-lg border-gray-300 md:p-10 p-5 flex flex-col items-end space-y-6 [direction:rtl]">
+            class="max-full mx-auto bg-white border rounded-lg border-gray-300 md:p-10 p-5  pb-25  flex flex-col items-end space-y-6 [direction:rtl]">
             <!-- Title -->
             <div class="flex justify-between w-full flex-col my-5 md:flex-row">
                 <h2 class="text-2xl font-bold text-gray-800 mb-10 text-right">

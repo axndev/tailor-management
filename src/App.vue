@@ -20,10 +20,9 @@ const isLoginPage = computed(() => route.path === '/login'); // assuming your ro
 
     <!-- Only show other components if NOT login page -->
     <template v-else>
-      <MobileNav />
-      <Aside class="hidden lg:flex"/>
+      <!-- <MobileNav /> -->
+      <Aside class=""/>
       <router-view/>
-      <Aside class="hidden lg:hidden"/>
     </template>
 
   </main>

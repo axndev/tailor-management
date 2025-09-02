@@ -146,10 +146,10 @@ onMounted(savedCustomer);
 
 
 <template>
-    <div class="lg:px-10 lg:py-5 p-5 w-full lg:w-[80vw] flex flex-col gap-5 bg-gray-50 ">
+    <div class="lg:px-10 lg:py-5 p-3 w-full lg:w-[80vw] flex flex-col gap-5 bg-gray-50 ">
         <header class="bg-white p-3 rounded-lg flex justify-between items-center shadow gap-5">
             <span class="hidden lg:block">Total Customers: <strong>{{ customers.length }}</strong></span>
-            <div class="flex items-center gap-3">
+            <div class="items-center gap-3 hidden lg:flex">
                 <label for="filter" class="font-medium text-gray-700">Filter by:</label>
                 <select id="filter" v-model="selectedFilter"
                     class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
@@ -165,7 +165,7 @@ onMounted(savedCustomer);
             </div>
             
 
-            <div class="flex items-center gap-5">
+            <div class="items-center gap-5 hidden lg:flex">
                 <router-link to="/customer/create" class="pr-btn hidden md:flex">Add New Customer</router-link>
                 <span @click="toggleTrash"
                     class=" text-indigo-500 text-xl relative w-7 h-7 flex justify-center items-center rounded-full cursor-pointer "><i
@@ -179,10 +179,10 @@ onMounted(savedCustomer);
                 </span>
             </div>
         </header>
-        <div class="bg-white rounded-2xl shadow p-6 overflow-hidden">
+        <div class="lg:bg-white rounded-2xl lg:shadow lg:p-6 overflow-hidden">
             <div class="flex justify-between items-center mb-3 flex-col md:flex-row gap-5">
-                <h3 class="text-2xl font-semibold">{{ trash ? 'Recycle Bin' : 'Customers' }}</h3>
-                <div class="flex gap-2 items-center">
+                <h3 class="text-2xl font-semibold hidden lg:block">{{ trash ? 'Recycle Bin' : 'Customers' }}</h3>
+                <div class="gap-2 items-center hidden lg:flex">
                     <select v-model="bulkAction" class="border rounded-lg p-2 text-sm">
                         <option value="">Select Action</option>
                         <option v-if="trash" value="selectAllTrash">Select All</option>
@@ -198,14 +198,14 @@ onMounted(savedCustomer);
                     </button>
                 </div>
             </div>
-            <div v-if="trash == true" class="flex flex-col gap-3 overflow-y-auto h-full pt-5 lg:pb-13 ">
-                <div class="flex justify-between bg-gray-100 text-gray-700 font-semibold hover:bg-gray-50 p-3 rounded shadow border border-transparent hover:border-indigo-500 cursor-pointer"
+            <div v-if="trash == true" class="flex flex-col gap-5 overflow-y-auto h-full pt-5 lg:pb-13 ">
+                <div class="flex justify-between bg-white lg:bg-gray-100 text-gray-700 font-semibold hover:bg-gray-50 p-3 rounded shadow border border-transparent hover:border-indigo-500 cursor-pointer"
                     v-for="(customer, idx) in paginatedCustomers" :id="idx">
                     <span class="flex items-center gap-2">
                         <input type="checkbox" :checked="bulkAction == 'selectAllTrash'"
                             v-if="bulkAction !== '' && bulkAction !== 'clearSelection'" v-model="selectedCustomers"
                             :value="customer.id" class="h-4 w-4 text-indigo-500 rounded" :id="customer.id" />
-                        <span class="md:text-lg text-md">{{ idx + 1 }}. </span>
+                        <span class="md:text-lg text-md text-indigo-600">{{ idx + 1 }}. </span>
                         <label :for="customer.id" class="md:text-lg text-md font-semibold">{{ customer.name }}{{
                             }}</label>
                     </span>
@@ -232,8 +232,8 @@ onMounted(savedCustomer);
                     v-if="trashCustomers.length < 1">Trash is Empty</span>
             </div>
             <div v-else class="overflow-y-auto h-full pt-5 lg:pb-13 ">
-                <div v-if="customers.length > 0" class="flex flex-col gap-3">
-                    <div class="flex justify-between bg-gray-100 text-gray-700 font-semibold hover:bg-gray-50 p-3 rounded shadow border border-transparent hover:border-indigo-500 cursor-pointer"
+                <div v-if="customers.length > 0" class="flex flex-col gap-5">
+                    <div class="flex justify-between bg-white lg:bg-gray-100 text-gray-700 font-semibold hover:bg-gray-50 p-3 rounded shadow border border-transparent hover:border-indigo-500 cursor-pointer"
                         v-for="(customer, idx) in paginatedCustomers" :id="idx">
                         <span class="flex items-center gap-2">
                             <input :checked="bulkAction == 'selectAllCustomers'"
@@ -241,7 +241,7 @@ onMounted(savedCustomer);
                                 v-model="selectedCustomers" :value="customer.id" class="h-4 w-4 text-indigo-500 rounded"
                                 :id="customer.id" />
 
-                            <span class="md:text-lg text-md">{{ (page - 1) * perPage + idx + 1 }}.</span>
+                            <span class="md:text-lg text-md text-indigo-600">{{ (page - 1) * perPage + idx + 1 }}.</span>
                             <label :for="customer.id" class="md:text-lg text-md font-semibold">{{ customer.name }}{{
                                 }}</label>
                         </span>
