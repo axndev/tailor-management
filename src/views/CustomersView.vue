@@ -73,7 +73,7 @@ function toggleTrash() {
     bulkAction.value = ""
 }
 
-setInterval(savedCustomer, 100);
+setInterval(savedCustomer, 1000);
 onMounted(savedCustomer);
 
 
