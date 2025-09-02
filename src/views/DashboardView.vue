@@ -1,43 +1,67 @@
 <script setup>
-import axios from 'axios';
-import { onMounted, ref, computed } from 'vue';
+import { ref, computed, onMounted } from "vue";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, collection, getDocs, query, where } from "firebase/firestore";
+import { app } from "@/firebase"; // your initialized firebase app
 
+const auth = getAuth(app);
+const db = getFirestore(app);
+import { useRouter } from 'vue-router';
+import { signOut } from "firebase/auth";
+
+const router = useRouter();
+
+const logout = async () => {
+    try {
+        await signOut(auth);
+        localStorage.removeItem('user'); // remove local storage
+        router.push('/login'); // redirect to login page
+    } catch (error) {
+        console.error("Logout failed", error);
+    }
+};
 const totalCustomers = ref([]);
 const customers = ref([]);
-const trashCustomers = ref({});
-const API_URL = "https://tailor-management.onrender.com";
+const trashCustomers = ref([]);
 
-const savedCustomer = async () => {
+// ✅ Sign in and fetch customers from Firebase
+onMounted(async () => {
     try {
-        const all = await axios.get(`${API_URL}/customers`);
-        totalCustomers.value = all.data;
+        // 2️⃣ Reference the "customers" collection
+        const customersCollection = collection(db, "customers");
 
-        const response = await axios.get(`${API_URL}/customers?isDeleted=false`);
-        customers.value = response.data;
+        // 3️⃣ Fetch all customers
+        const snapshot = await getDocs(customersCollection);
+        totalCustomers.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-        const trashData = await axios.get(`${API_URL}/customers?isDeleted=true`)
-        trashCustomers.value = trashData.data;
-    } catch (e) {
-        console.log(e);
+        // 4️⃣ Separate active and trashed customers
+        const activeQuery = query(customersCollection, where("isDeleted", "==", false));
+        const activeSnapshot = await getDocs(activeQuery);
+        customers.value = activeSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        const trashQuery = query(customersCollection, where("isDeleted", "==", true));
+        const trashSnapshot = await getDocs(trashQuery);
+        trashCustomers.value = trashSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    } catch (error) {
+        console.error("Error signing in or fetching data:", error);
     }
-}
-
-const monthlyCustomers = computed(() => {
-  const now = new Date();
-  return totalCustomers.value.filter(cust => {
-    if (!cust.created_at) return false;
-    const created = new Date(cust.created_at);
-    return (
-      created.getMonth() === now.getMonth() &&
-      created.getFullYear() === now.getFullYear()
-    );
-  });
 });
 
-
-setInterval(savedCustomer, 100);
-onMounted(savedCustomer);
+// ✅ Compute new customers this month
+const monthlyCustomers = computed(() => {
+    const now = new Date();
+    return totalCustomers.value.filter(cust => {
+        if (!cust.created_at) return false;
+        const created = new Date(cust.created_at);
+        return (
+            created.getMonth() === now.getMonth() &&
+            created.getFullYear() === now.getFullYear()
+        );
+    });
+});
 </script>
+
 <template>
 
     <div class="w-full lg:w-[80vw] md:p-10 p-5">
@@ -51,7 +75,8 @@ onMounted(savedCustomer);
                         <div>
                             <p class="text-gray-600 text-sm font-medium">Total Customers</p>
                             <h3 class="text-3xl font-bold text-gray-800 my-5">{{ totalCustomers.length }}</h3>
-                            <p class="text-green-500 text-xs font-medium mt-1">↑ {{monthlyCustomers.length}} this month</p>
+                            <p class="text-green-500 text-xs font-medium mt-1">↑ {{ monthlyCustomers.length }} this month
+                            </p>
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-sky-500" fill="currentColor"
                             viewBox="0 0 24 24">
@@ -100,7 +125,7 @@ onMounted(savedCustomer);
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-600 text-sm font-medium">New This Month</p>
-                            <h3 class="text-3xl font-bold text-gray-800 my-5">{{monthlyCustomers.length}}</h3>
+                            <h3 class="text-3xl font-bold text-gray-800 my-5">{{ monthlyCustomers.length }}</h3>
                             <p class="text-green-500 text-xs font-medium mt-1">↑ Growing</p>
                         </div>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-indigo-500" fill="currentColor"
@@ -111,6 +136,11 @@ onMounted(savedCustomer);
                     </div>
                 </div>
 
+                    <div class="dashboard-header flex justify-end p-4">
+                        <button @click="logout" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                            Logout
+                        </button>
+                    </div>
             </div>
 
         </div>

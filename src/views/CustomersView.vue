@@ -1,40 +1,40 @@
 <script setup>
-import axios from 'axios';
-import { onMounted, ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { db } from '../firebase';
+import { collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
 
 const customers = ref([]);
-const trashCustomers = ref({});
+const trashCustomers = ref([]);
 const trash = ref(false);
 
-const bulkAction = ref(""); // current action from dropdown
-const selectedCustomers = ref([]); // track selected customers
+const bulkAction = ref("");
+const selectedCustomers = ref([]);
 
-const API_URL = "https://tailor-management.onrender.com";
-
+const customersCollection = collection(db, "customers");
 
 const savedCustomer = async () => {
     try {
-        const response = await axios.get(`${API_URL}/customers?isDeleted=false`);
-        customers.value = response.data;
+        const snapshot = await getDocs(customersCollection);
+        const allCustomers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-        const trashData = await axios.get(`${API_URL}/customers?isDeleted=true`)
-        trashCustomers.value = trashData.data;
+        customers.value = allCustomers
+            .filter(c => !c.isDeleted)
+            .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+        trashCustomers.value = allCustomers
+            .filter(c => c.isDeleted)
+            .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
     } catch (e) {
         console.log(e);
     }
-}
+};
 
 async function trashCustomer(id) {
     try {
-        const customer = customers.value.find(c => c.id === id);
-        if (!customer) return;
-        await axios.patch(`${API_URL}/customers/${id}`, {
-            isDeleted: true
-        });;
-
-        customers.value = customers.value.filter(customer => customer.id !== id);
-        trashCustomers.value = customers.value.filter(customer => customer.isDeleted == true);
-        savedCustomer();
+        const customerDoc = doc(db, "customers", id);
+        await updateDoc(customerDoc, { isDeleted: true });
+        await savedCustomer();
     } catch (e) {
         console.error("Failed to delete", e);
     }
@@ -42,53 +42,38 @@ async function trashCustomer(id) {
 
 async function restoreCustomer(id) {
     try {
-        const customer = trashCustomers.value.find(c => c.id === id);
-        if (!customer) return;
-        await axios.patch(`${API_URL}/customers/${id}`, {
-            isDeleted: false
-        });;
-
-        customers.value = customers.value.filter(customer => customer.id !== id);
-        trashCustomers.value = customers.value.filter(customer => customer.isDeleted == true);
-        savedCustomer();
+        const customerDoc = doc(db, "customers", id);
+        await updateDoc(customerDoc, { isDeleted: false });
+        await savedCustomer();
     } catch (e) {
-        console.error("Failed to delete", e);
+        console.error("Failed to restore", e);
     }
 }
-
 
 async function deleteCustomer(id) {
-    const confirmDelete = confirm("Are you sure you want to delete this customer?");
-    if (!confirmDelete) return; // if user clicks cancel, stop here
+    if (!confirm("Are you sure you want to delete this customer?")) return;
 
     try {
-        await axios.delete(`${API_URL}/customers/${id}`);
-        console.log("Customer deleted successfully");
-        savedCustomer();
+        const customerDoc = doc(db, "customers", id);
+        await deleteDoc(customerDoc);
+        await savedCustomer();
     } catch (e) {
         console.error("Failed to delete", e);
     }
 }
-
 
 function toggleTrash() {
     trash.value = !trash.value;
-    bulkAction.value = ""
+    bulkAction.value = "";
 }
-
-setInterval(savedCustomer, 1000);
-onMounted(savedCustomer);
-
 
 function applyBulkAction() {
     if (!bulkAction.value) return;
 
     if (bulkAction.value === "selectAllCustomers") {
         selectedCustomers.value = customers.value.map(c => c.id);
-        console.log(selectedCustomers.value);
     } else if (bulkAction.value === "selectAllTrash") {
         selectedCustomers.value = trashCustomers.value.map(c => c.id);
-        console.log(selectedCustomers.value);
     } else if (bulkAction.value === "clearSelection") {
         selectedCustomers.value = [];
     } else if (bulkAction.value === "restore") {
@@ -101,88 +86,64 @@ function applyBulkAction() {
         selectedCustomers.value.forEach(id => deleteCustomer(id));
         selectedCustomers.value = [];
     }
-
 }
 
 const searchQuery = ref("");
-// Filter customers list
 const filteredCustomers = computed(() =>
     customers.value.filter(c =>
         c.name.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
 );
-
-// Filter trash customers list
 const filteredTrashCustomers = computed(() =>
     trashCustomers.value.filter(c =>
         c.name.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
 );
 
-const page = ref(1); // current page
-const perPage = 10; // items per page
+const page = ref(1);
+const perPage = 10;
 
-const activeList = computed(() =>
-    trash.value ? filteredTrashCustomers.value : filteredCustomers.value
-);
-
+const activeList = computed(() => trash.value ? filteredTrashCustomers.value : filteredCustomers.value);
 const selectedFilter = ref("all");
 
 const filteredActiveList = computed(() => {
     const now = new Date();
-
     return activeList.value.filter(cust => {
-        if (!cust.created_at) return true; // skip if missing
-
+        if (!cust.created_at) return true;
         const created = new Date(cust.created_at);
-
         switch (selectedFilter.value) {
             case "today":
                 return created.toDateString() === now.toDateString();
-
             case "week":
                 const weekAgo = new Date();
                 weekAgo.setDate(now.getDate() - 7);
                 return created >= weekAgo;
-
             case "month":
-                return (
-                    created.getMonth() === now.getMonth() &&
-                    created.getFullYear() === now.getFullYear()
-                );
-
-            case "new": // last 3 days
+                return created.getMonth() === now.getMonth() &&
+                       created.getFullYear() === now.getFullYear();
+            case "new":
                 const threeDaysAgo = new Date();
                 threeDaysAgo.setDate(now.getDate() - 3);
                 return created >= threeDaysAgo;
-
-            default: // "all"
+            default:
                 return true;
         }
     });
 });
 
-// ✅ Use filteredActiveList instead of activeList
 const paginatedCustomers = computed(() => {
     const start = (page.value - 1) * perPage;
-    const end = start + perPage;
-    return filteredActiveList.value.slice(start, end);
+    return filteredActiveList.value.slice(start, start + perPage);
 });
 
-// ✅ Same for totalPages
-const totalPages = computed(() =>
-    Math.ceil(filteredActiveList.value.length / perPage)
-);
+const totalPages = computed(() => Math.ceil(filteredActiveList.value.length / perPage));
 
-// Actions
-function nextPage() {
-    if (page.value < totalPages.value) page.value++;
-}
-function prevPage() {
-    if (page.value > 1) page.value--;
-}
+function nextPage() { if (page.value < totalPages.value) page.value++; }
+function prevPage() { if (page.value > 1) page.value--; }
 
+onMounted(savedCustomer);
 </script>
+
 
 <template>
     <div class="lg:px-10 lg:py-5 p-5 w-full lg:w-[80vw] flex flex-col gap-5 bg-gray-50 ">

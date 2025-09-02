@@ -1,16 +1,15 @@
 <script setup>
-import { reactive, onMounted, onUpdated } from "vue";
-import axios from "axios";
-import { useRoute } from 'vue-router';
+import { reactive, onMounted } from "vue";
 import { useRouter } from 'vue-router';
+import { db } from '../firebase';
+import { collection, doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 
 const router = useRouter();
-const API_URL = "https://tailor-management.onrender.com";
 
 const props = defineProps({
     mode: { type: String, default: "create" }, // create | edit | view
     id: { type: String, default: null }
-})
+});
 
 // Reactive customer object
 const customer = reactive({
@@ -32,8 +31,7 @@ const customer = reactive({
     shalwar_length: null,
     trouser_length: null,
     bottom: null,
-
-    // Checkboxes (true/false)
+    // Checkboxes
     double_salie: false,
     design: false,
     front_pocket: false,
@@ -45,46 +43,64 @@ const customer = reactive({
     trouser_pocket: false,
     rashmi_dhaga: false,
     jali: false,
-
-    // Radios (single value)
-    gala: "",          // eg. "گول", "کونہ دار"
-    ghera_type: "",    // eg. "گول", "چوکھا"
-    shalwar: "",       // eg. "شلوار", "ٹراؤزر"
-    button: "",        // eg. "چھوٹا", "درمیانہ", "بڑا"
-    side_pocket: "",   // eg. "دائیں", "بائیں", "دونوں"
-
+    // Radios
+    gala: "",
+    ghera_type: "",
+    shalwar: "",
+    button: "",
+    side_pocket: "",
     // Notes
     extra_info: "",
     isDeleted: false
 });
+
+const customersCollection = collection(db, "customers");
+
 // Load data if edit/view
 onMounted(async () => {
     if (props.id) {
-        const res = await axios.get(`${API_URL}/customers/${props.id}`)
-        Object.assign(customer, res.data)
-    }
+        const docRef = doc(db, "customers", props.id);
+        const docSnap = await getDoc(docRef);
 
-})
-// Save handler
-const saveCustomer = async () => {
-    if (customer.name !== '') {
-        if (props.mode === "create") {
-            await axios.post(`${API_URL}/customers`, customer);
-            router.push(`/customers`);
-        } else if (props.mode === "edit") {
-            customer.updated_at = new Date().toISOString();
-            await axios.put(`${API_URL}/customers/${props.id}`, customer);
-            router.push(`/customers`);
+        if (docSnap.exists()) {
+            Object.assign(customer, docSnap.data());
+        } else {
+            console.error("Customer not found!");
         }
     }
-    else {
-        alert("Plz Enter Name")
-    }
-}
+});
 
+// Save handler
+const saveCustomer = async () => {
+    if (!customer.name) {
+        alert("Plz Enter Name");
+        return;
+    }
+
+    try {
+        if (props.mode === "create") {
+            const newDocRef = doc(customersCollection); // auto-generated ID
+            await setDoc(newDocRef, {
+                ...customer,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            });
+            router.push(`/customers`);
+        } else if (props.mode === "edit") {
+            const docRef = doc(db, "customers", props.id);
+            customer.updated_at = new Date().toISOString();
+            await updateDoc(docRef, customer);
+            router.push(`/customers`);
+        }
+    } catch (e) {
+        console.error("Failed to save customer:", e);
+    }
+};
+
+// Print details
 function printDetails() {
-    const printContents = document.getElementById('print-area').innerHTML
-    const printWindow = window.open('', '', 'height=800,width=600')
+    const printContents = document.getElementById('print-area').innerHTML;
+    const printWindow = window.open('', '', 'height=800,width=600');
     printWindow.document.write(`
     <html>
       <head>
@@ -98,41 +114,30 @@ function printDetails() {
       </head>
       <body>${printContents}</body>
     </html>
-  `)
-    printWindow.document.close()
-    printWindow.print()
+  `);
+    printWindow.document.close();
+    printWindow.print();
 }
 
-// Create a new Date object for the current date and time
-const currentDate = new Date();
-
-// Define options for formatting the date
-const options = {
-    weekday: 'long', // Full weekday name (e.g., اتوار)
-    year: 'numeric', // Full year (e.g., 2025)
-    month: 'long',   // Full month name (e.g., اگست)
-    day: 'numeric'   // Day of the month (e.g., 27)
-};
-
-// Format the date for the Urdu locale (Pakistan)
-const urduDate = currentDate.toLocaleDateString('ur-PK', options);
-
-
+// Date formatting for Urdu
 function formatUrduDate(dateStr) {
     if (!dateStr) return "";
     const date = new Date(dateStr);
-
     return new Intl.DateTimeFormat("ur-PK", {
         weekday: "long",
         year: "numeric",
         month: "long",
         day: "numeric",
-        timeZone: "UTC" // ⚡ تاکہ ISO string کے مطابق رہے
+        timeZone: "UTC"
     }).format(date);
 }
 
-onMounted(formatUrduDate);
+const currentDate = new Date();
+const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+const urduDate = currentDate.toLocaleDateString('ur-PK', options);
+
 </script>
+
 <template>
     <div class="md:p-10 p-5 bg-gray-50 w-full lg:w-[80vw]  overflow-y-auto">
         <form
