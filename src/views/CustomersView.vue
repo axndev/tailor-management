@@ -9,7 +9,7 @@ const trash = ref(false);
 const bulkAction = ref(""); // current action from dropdown
 const selectedCustomers = ref([]); // track selected customers
 
-const API_URL = "https://tailor-management.onrender.com/";
+const API_URL = "https://tailor-management.onrender.com";
 
 
 const savedCustomer = async () => {

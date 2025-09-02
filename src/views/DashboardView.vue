@@ -5,7 +5,7 @@ import { onMounted, ref, computed } from 'vue';
 const totalCustomers = ref([]);
 const customers = ref([]);
 const trashCustomers = ref({});
-const API_URL = "https://tailor-management.onrender.com/";
+const API_URL = "https://tailor-management.onrender.com";
 
 const savedCustomer = async () => {
     try {

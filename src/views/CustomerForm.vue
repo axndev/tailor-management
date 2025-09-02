@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const API_URL = "https://tailor-management.onrender.com/";
+const API_URL = "https://tailor-management.onrender.com";
 
 const props = defineProps({
     mode: { type: String, default: "create" }, // create | edit | view
