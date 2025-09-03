@@ -1,9 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-
 import Aside from './components/Aside.vue';
-import MobileNav from './components/MobileNav.vue';
 import LoginView from './views/LoginView.vue';
 
 const route = useRoute();
@@ -20,7 +18,6 @@ const isLoginPage = computed(() => route.path === '/login'); // assuming your ro
 
     <!-- Only show other components if NOT login page -->
     <template v-else>
-      <!-- <MobileNav /> -->
       <Aside class=""/>
       <router-view/>
     </template>

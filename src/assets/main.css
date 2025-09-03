@@ -1,22 +1,29 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @layer base {
   body{
     @apply bg-gray-50
   }
+  body{
+    font-family: "Inter", sans-serif; 
+  }
+  input::placeholder{
+    font-family: "Inter", sans-serif; 
+  }
   .sideBtn {
-    @apply p-2 py-4 pl-5 w-full text-left cursor-pointer hover:text-indigo-600 border-l-3 border-transparent hover:border-indigo-500 transition-all ease-in-out duration-100
+    @apply p-2 py-4 pl-5 w-full text-left cursor-pointer transition-all ease-in-out duration-100 font-medium
   }
 
   aside .router-link-exact-active {
-    @apply bg-indigo-50 text-indigo-600 hover:border-transparent font-semibold
+    @apply  text-blue-600  
   }
 
   .pr-btn {
-    @apply bg-indigo-500 text-white p-2 px-4 rounded border border-transparent cursor-pointer  hover:bg-indigo-600 hover:border-indigo-600
+    @apply bg-blue-600 text-white p-2 px-4 rounded border border-transparent cursor-pointer   hover:bg-blue-700
   }
 
   .my-checkbox {
-    @apply disabled:accent-indigo-500
+    @apply disabled:accent-blue-600
   }
 }

@@ -28,8 +28,8 @@ const login = async () => {
 </script>
 
 <template>
-    <div class="flex items-center justify-center min-h-screen bg-gray-100 w-screen">
-      <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div class="flex items-center justify-center min-h-screen bg-indigo-50 w-screen">
+      <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-5">
         <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Login</h2>
   
         <div class="flex flex-col gap-4">
@@ -37,19 +37,19 @@ const login = async () => {
             v-model="email"
             type="email"
             placeholder="Email"
-            class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+            class="p-3 border border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent"
           />
   
           <input
             v-model="password"
             type="password"
             placeholder="Password"
-            class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+            class="p-3 border border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent"
           />
   
           <button
             @click="login"
-            class="bg-sky-500 text-white font-semibold py-3 rounded-lg hover:bg-sky-600 transition-colors"
+            class="bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-600 transition-colors"
           >
             Login
           </button>
@@ -59,11 +59,4 @@ const login = async () => {
       </div>
     </div>
   </template>
-    
-  <style scoped>
-  /* Optional: add a smooth background gradient */
-  body {
-    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-  }
-  </style>
   
