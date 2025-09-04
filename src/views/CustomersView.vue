@@ -94,19 +94,24 @@ onMounted(savedCustomer);
         <!-- Main content -->
         <div v-else>
             <div class="flex items-center mb-5 lg:gap-10">
-                <router-link to="/">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="lg:w-6 lg:h-6 h-5 w-5 cursor-pointer">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path d="M15 20L7 12L15 4" stroke="#000000" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round"></path>
-                    </g>
-                </svg>
+                <router-link to="/" class="z-10">
+                    <span>
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        class="lg:w-6 lg:h-6 h-5 w-5 cursor-pointer">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path d="M15 20L7 12L15 4" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </g>
+                    </svg>
+                    </span>
                 </router-link>
-                <h2 class="lg:text-2xl text-xl text-gray-900 font-bold text-center w-full lg:w-auto -ml-5">Customers</h2>
+                <h2 class="lg:text-2xl text-xl text-gray-900 font-bold text-center w-full lg:w-auto -ml-5">Customers
+                </h2>
             </div>
-            <header class="lg:bg-white lg:p-3 rounded-lg flex justify-between items-center border-2 border-gray-100 gap-5">
+            <header
+                class="lg:bg-white lg:p-3 rounded-lg flex justify-between items-center border-2 border-gray-100 gap-5">
                 <!-- <div class="items-center gap-3 hidden lg:flex">
                 <label for="filter" class="font-medium text-gray-700">Filter by:</label>
                 <select id="filter" v-model="selectedFilter"
@@ -192,33 +197,35 @@ onMounted(savedCustomer);
                 </div>
                 <div v-else class="overflow-y-auto h-full pt-5 ">
                     <div v-if="customers.length > 0" class="flex flex-col gap-3">
-                        <div class="flex justify-between bg-white text-gray-900 font-semibold p-4 rounded border-2 border-gray-100 cursor-pointer"
+                        <div class="flex justify-between flex-col gap-4 bg-white text-gray-900 font-semibold p-4 rounded border-2 border-gray-100 cursor-pointer"
                             v-for="(customer, idx) in paginatedCustomers" :id="idx">
                             <span class="flex items-center gap-2">
                                 <input :checked="bulkAction == 'selectAllCustomers'"
                                     v-if="bulkAction !== '' && bulkAction !== 'clearSelection'" type="checkbox"
                                     v-model="selectedCustomers" :value="customer.id"
                                     class="h-4 w-4 text-indigo-500 rounded" :id="customer.id" />
-                                    <span class="bg-blue-600 text-white w-10 h-10 flex justify-center items-center rounded-full">
-                                        {{ customer.name.charAt(0).toUpperCase() }}
-                                    </span>
-                               <span class="flex flex-col">
-                                <label :for="customer.id" class="md:text-lg text-md font-semibold">{{ customer.name }}{{
-                                    }}</label>
-                                    <span class="text-gray-600 text-sm">{{customer.phone}}</span>
-                               </span>
+                                <span
+                                    class="bg-blue-600 text-white text-2xl w-11 h-11 flex justify-center items-center rounded-full">
+                                    {{ customer.name.charAt(0).toUpperCase() }}
+                                </span>
+                                <span class="flex flex-col">
+                                    <label :for="customer.id" class="md:text-lg text-md font-semibold">{{ customer.name
+                                        }}{{
+                                        }}</label>
+                                    <span class="text-gray-600 text-sm">{{ customer.phone }}</span>
+                                </span>
                             </span>
-                            <div class="flex items-center gap-3">
+                            <div class="flex items-center justify-end gap-3">
                                 <router-link :to="`customer/${customer.id}/view`"
-                                    class="bg-indigo-500 hover:bg-indigo-600 text-white w-7 h-7 flex justify-center items-center rounded-full cursor-pointer">
+                                    class="border-gray-200 border text-blue-600 w-8 h-8 flex justify-center items-center rounded">
                                     <i class="fa-solid fa-eye"></i>
                                 </router-link>
                                 <router-link :to="`customer/${customer.id}/edit`"
-                                    class="bg-yellow-600 hover:bg-yellow-700 text-[13px] text-white w-7 h-7 flex justify-center items-center rounded-full cursor-pointer">
+                                    class="border-gray-200 border text-blue-600 w-8 h-8 text-[13px] flex rounded justify-center items-center">
                                     <i class="fa-solid fa-pencil"></i>
                                 </router-link>
                                 <span @click="trashCustomer(customer.id)"
-                                    class="bg-red-500 hover:bg-red-600  w-7 h-7 flex justify-center items-center rounded-full cursor-pointer text-white"><i
+                                    class="border-gray-200 border text-blue-600 w-8 h-8 text-[13px] flex rounded justify-center items-center"><i
                                         class="fa fa-trash"></i>
                                 </span>
                             </div>
