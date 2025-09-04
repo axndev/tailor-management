@@ -71,46 +71,50 @@ const monthlyCustomers = computed(() => {
         <!-- Dashboard Content -->
         <div v-else>
             <h2 class="text-xl lg:text-2xl text-gray-900 font-bold mb-5">Dashboard</h2>
-
-            <!-- Total Customers -->
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-5 ">
-                <div class="bg-white p-5 border-2 border-gray-100 rounded-lg w-full">
-                    <div class="flex items-center justify-between">
+            <div class="flex justify-start flex-col items-center w-full gap-5">
+                <!-- Total Customers -->
+                <div class="bg-white overflow-hidden  border-2 relative border-gray-100 rounded-lg w-full">
+                    <div class="flex items-center justify-between p-5 mb-15">
                         <div>
                             <p class="text-gray-600 text-lg font-medium">Total Customers</p>
                             <h3 class="text-5xl font-bold text-gray-800 my-5">{{ totalCustomers.length }}</h3>
-                            <div class="mt-6 h-20">
-                                <svg viewBox="0 0 200 60" class="w-full h-20 text-blue-600"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stop-color="currentColor" stop-opacity="0.2" />
-                                            <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
-                                        </linearGradient>
-                                    </defs>
 
-                                    <!-- Fill -->
-                                    <path d="M0 40
-           C40 10, 80 50, 120 20
-           S160 30, 200 15
-           L200 60 L0 60 Z" fill="url(#sparkFill)" />
+                            <p class="text-gray-600 text-lg font-medium mt-1">{{ monthlyCustomers.length }} this month</p>
 
-                                    <!-- Line -->
-                                    <path d="M0 40
-           C40 10, 80 50, 120 20
-           S160 30, 200 15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                            </div>
                         </div>
                     </div>
+
                     <!-- Sparkline (no Chart.js, just SVG) -->
-                    <p class="text-gray-600 font-medium mt-1">{{ monthlyCustomers.length }} this month</p>
+                    <div class="absolute bottom-0 left-0 w-full lg:h-50">
+                        <svg viewBox="0 0 200 60" class=" text-blue-600" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="currentColor" stop-opacity="0.2" />
+                                    <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+
+                            <!-- Fill -->
+                            <path d="M0 40
+           C40 10, 80 50, 120 20
+           S160 30, 200 15
+           L200 60 L0 60 Z" fill="url(#sparkFill)" transform="scale(1)" />
+
+                            <!-- Line -->
+                            <path d="M0 40
+           C40 10, 80 50, 120 20
+           S160 30, 200 15" fill="none" stroke="currentColor" stroke-width="1" transform="scale(1)" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+
+                    </div>
                 </div>
-                <div class="flex justify-start flex-col items-center w-full gap-5">
+
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-5 ">
+
                     <!-- Active Customers -->
-                    <div class="bg-white p-5 border-2 border-gray-100 rounded-lg w-full">
+                    <div class="bg-white p-5 border-2 border-gray-100 rounded-lg ">
                         <div class="flex items-center justify-between">
                             <div class="flex justify-center items-center gap-3">
                                 <span class="p-3 bg-blue-600 rounded-full">
@@ -132,7 +136,7 @@ const monthlyCustomers = computed(() => {
                     </div>
 
                     <!-- Trashed Customers -->
-                    <div class="bg-white p-5 border-2 border-gray-100 rounded-lg w-full">
+                    <div class="bg-white p-5 border-2 border-gray-100 rounded-lg ">
                         <div class="flex items-center justify-between">
                             <div class="flex justify-center items-center gap-3">
                                 <span class="p-3 bg-red-600 rounded-full">
