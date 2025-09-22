@@ -11,13 +11,30 @@ const errorMsg = ref('');
 
 const login = async () => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email.value.trim(),
+      password.value
+    );   
 
-    // Store user info in localStorage
+    const uid = userCredential.user.uid;
+    const userEmail = userCredential.user.email;
+
+    // Save Firebase user info
     localStorage.setItem('user', JSON.stringify({
-      uid: userCredential.user.uid,
-      email: userCredential.user.email
+      uid,
+      email: userEmail
     }));
+
+    // Ensure user-specific data exists
+    const key = `user_data_${uid}`;
+    if (!localStorage.getItem(key)) {
+      localStorage.setItem(key, JSON.stringify({
+        name: "",
+        phone: "",
+        shop: ""
+      }));
+    }
 
     router.push('/'); // redirect to dashboard
   } catch (error) {
@@ -25,7 +42,9 @@ const login = async () => {
     errorMsg.value = error.message;
   }
 };
+
 </script>
+
 
 <template>
     <div class="flex items-center justify-center min-h-screen bg-gray-50 w-screen">

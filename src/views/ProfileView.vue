@@ -7,10 +7,14 @@ import {
     updateEmail,
     EmailAuthProvider,
     reauthenticateWithCredential,
+    signOut,
 } from "firebase/auth";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const user = reactive({
-    shop: "",
+    shop: "One Promise Stitching",
     name: "",
     email: "",
     phone: "",
@@ -22,27 +26,23 @@ const showCurrentPassword = ref(false);
 const showNewPassword = ref(false);
 
 onMounted(() => {
-    // Firebase Auth
     onAuthStateChanged(auth, (firebaseUser) => {
         if (firebaseUser) {
             user.email = firebaseUser.email;
+
+            // Load user-specific data
+            const key = `user_data_${firebaseUser.uid}`;
+            const localUser = JSON.parse(localStorage.getItem(key));
+
+            if (localUser) {
+                user.name = localUser.name || "";
+                user.phone = localUser.phone || "";
+                user.shop = localUser.shop || "";
+            }
         }
     });
-
-    // LocalStorage (extra fields)
-    const localUser = JSON.parse(localStorage.getItem("user_data"));
-    if (localUser) {
-        user.name = localUser.name || "";
-        user.phone = localUser.phone || "";
-        user.shop = localUser.shop || "";
-    }
-
-    // Email fallback
-    const localAuthUser = JSON.parse(localStorage.getItem("user"));
-    if (localAuthUser?.email) {
-        user.email = localAuthUser.email;
-    }
 });
+
 
 async function saveChanges() {
     try {
@@ -71,14 +71,15 @@ async function saveChanges() {
             await updatePassword(currentUser, user.password);
         }
 
-        localStorage.setItem(
-            "user_data",
-            JSON.stringify({ name: user.name, phone: user.phone, shop: user.shop })
-        );
+        const key = `user_data_${currentUser.uid}`;
+        localStorage.setItem(key, JSON.stringify({
+            name: user.name,
+            phone: user.phone,
+            shop: user.shop
+        }));
 
         alert("Profile updated successfully!");
         user.password = "";
-        user.currentPassword = "";
     } catch (err) {
         console.error(err);
         alert("Error: " + err.message);
@@ -86,9 +87,20 @@ async function saveChanges() {
 }
 
 function getFirstLettersOfFirstTwoWords(str) {
-    const words = str.split(" ");
+    const words = str.trim().split(" ");
     if (words.length < 2) return words[0]?.[0] || "";
     return words[0][0] + words[1][0];
+}
+
+async function logout() {
+    try {
+        await signOut(auth);
+        localStorage.removeItem("user");
+        router.push("/login");
+    } catch (err) {
+        console.error(err);
+        alert("Logout failed: " + err.message);
+    }
 }
 </script>
 
@@ -97,8 +109,9 @@ function getFirstLettersOfFirstTwoWords(str) {
         <div>
             <h2 class="text-xl lg:text-2xl text-gray-900 font-bold mb-1">Profile</h2>
             <p class="text-md">Manage your personal information and account settings.</p>
-            <div class="bg-white overflow-hidden p-5 mt-5 border-2 relative border-gray-100 rounded-lg w-full flex flex-col gap-5">
-                <div class="flex gap-5 items-center md:flex-row md:text-left flex-col text-center" >
+            <div
+                class="bg-white overflow-hidden p-5 mt-5 border-2 relative border-gray-100 rounded-lg w-full flex flex-col gap-5">
+                <div class="flex gap-5 items-center md:flex-row md:text-left flex-col text-center">
                     <span
                         class="w-25 h-25 flex justify-center items-center rounded-full text-5xl bg-blue-600 text-white">
                         {{ getFirstLettersOfFirstTwoWords(user.name) }}
@@ -130,7 +143,7 @@ function getFirstLettersOfFirstTwoWords(str) {
                         </div>
                         <div class="flex flex-col gap-2 w-full">
                             <label for="email">Email</label>
-                            <input v-model="user.email" type="text"
+                            <input v-model="user.email" type="text" disabled
                                 class="border-2 border-gray-100 rounded-sm outline-none p-2 focus:border-blue-600" />
                         </div>
                     </div>
@@ -159,11 +172,14 @@ function getFirstLettersOfFirstTwoWords(str) {
                     </div>
 
                     <div class="flex gap-2 w-full lg:mt-8 mt-3">
-                        <button type="submit" class="pr-btn lg:w-[70%]">Save Changes</button>
+                        <button type="submit" class="pr-btn lg:w-[50%]">Save Changes</button>
                         <router-link to="/settings"
-                            class="pr-btn text-center bg-transparent text-black border-gray-200 lg:w-[30%]">
+                            class="pr-btn text-center bg-transparent text-black border-gray-200 lg:w-[25%]">
                             Back
                         </router-link>
+                        <button type="button" @click="logout" class="pr-btn bg-red-600 text-white lg:w-[25%]">
+                            Logout
+                        </button>
                     </div>
                 </form>
             </div>
