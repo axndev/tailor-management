@@ -28,7 +28,7 @@ const login = async () => {
 </script>
 
 <template>
-    <div class="flex items-center justify-center min-h-screen bg-indigo-50 w-screen">
+    <div class="flex items-center justify-center min-h-screen bg-gray-50 w-screen">
       <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-5">
         <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Login</h2>
   
@@ -37,19 +37,19 @@ const login = async () => {
             v-model="email"
             type="email"
             placeholder="Email"
-            class="p-3 border border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+            class="p-3 border border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
           />
   
           <input
             v-model="password"
             type="password"
             placeholder="Password"
-            class="p-3 border border-indigo-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent"
+            class="p-3 border border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
           />
   
           <button
             @click="login"
-            class="bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-600 transition-colors"
+            class="bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
           >
             Login
           </button>

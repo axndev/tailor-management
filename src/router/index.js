@@ -6,12 +6,19 @@ import CustomersView from '@/views/CustomersView.vue';
 import SettingsView from '@/views/SettingsView.vue';
 import CustomerForm from "@/views/CustomerForm.vue";
 import LoginView from "@/views/LoginView.vue";
+import TrashView from '../views/TrashView.vue';
+import ProfileView from '../views/ProfileView.vue';
+import ThemeView from '../views/ThemeView.vue';
 
 const routes = [
   { path: '/login', component: LoginView },
   { path: '/', component: DashboardView, meta: { requiresAuth: true } },
   { path: '/customers', component: CustomersView, meta: { requiresAuth: true } },
   { path: '/settings', component: SettingsView, meta: { requiresAuth: true } },
+  { path: '/trash', component: TrashView, meta: { requiresAuth: true } },
+  { path: '/profile', component: ProfileView, meta: { requiresAuth: true } },
+  { path: '/theme', component: ThemeView, meta: { requiresAuth: true } },
+  
   {
     path: "/customer/create",
     name: "CustomerCreate",

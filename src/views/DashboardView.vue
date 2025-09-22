@@ -62,7 +62,7 @@ const monthlyCustomers = computed(() => {
 </script>
 
 <template>
-    <div class="w-full lg:w-[80vw] bg-gray-50 overflow-auto h-full lg:p-10 p-5 pb-10">
+    <div class="w-full lg:w-[80vw] bg-gray-50 overflow-auto h-full lg:p-10  p-5 pb-20">
         <!-- Preloader -->
         <div v-if="loading" class="flex items-center justify-center h-screen w-full">
             <div class="loader border-4 border-blue-600 border-dashed rounded-full w-10 h-10 animate-spin"></div>
@@ -103,7 +103,7 @@ const monthlyCustomers = computed(() => {
                             <!-- Line -->
                             <path d="M0 40
            C40 10, 80 50, 120 20
-           S160 30, 200 15" fill="none" stroke="currentColor" stroke-width="1" transform="scale(1)" stroke-linecap="round"
+           S160 30, 200 15" fill="none" stroke="currentColor" stroke-width=".4" transform="scale(1)" stroke-linecap="round"
                                 stroke-linejoin="round" />
                         </svg>
 
@@ -149,12 +149,12 @@ const monthlyCustomers = computed(() => {
 
                                 </span>
                                 <div>
-                                    <router-link to="" class="text-gray-900 font-semibold hover:underline">Trashed
+                                    <router-link to="/trash" class="text-gray-900 font-semibold hover:underline">Trashed
                                         Customers</router-link>
                                     <p class="text-gray-600 font-medium mt-1">Needs review</p>
                                 </div>
                             </div>
-                            <h3 class="text-3xl font-bold text-gray-800 my-5">{{ customers.length }}</h3>
+                            <h3 class="text-3xl font-bold text-gray-800 my-5">{{ trashCustomers.length }}</h3>
                         </div>
                     </div>
 

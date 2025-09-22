@@ -16,7 +16,7 @@ const savedCustomer = async () => {
         const allCustomers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
         customers.value = allCustomers
-            .filter(c => !c.isDeleted)
+            .filter(c => c.isDeleted)
             .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
     } catch (e) {
@@ -26,17 +26,25 @@ const savedCustomer = async () => {
     }
 };
 
-// Move to Trash (soft delete)
-async function trashCustomer(id) {
+async function restoreCustomer(id) {
     try {
         const customerRef = doc(db, "customers", id);
-        await updateDoc(customerRef, { isDeleted: true });
+        await updateDoc(customerRef, { isDeleted: false });
         await savedCustomer();
     } catch (e) {
-        console.error("Error trashing customer:", e);
+        console.error("Error restoring customer:", e);
     }
 }
 
+async function deleteCustomer(id) {
+    try {
+        const customerRef = doc(db, "customers", id);
+        await deleteDoc(customerRef);
+        await savedCustomer();
+    } catch (e) {
+        console.error("Error deleting customer:", e);
+    }
+}
 
 //  Searching & Filtering
 const searchQuery = ref("");
@@ -67,7 +75,7 @@ onMounted(savedCustomer);
 </script>
 
 <template>
-    <div class="lg:p-10  p-5 pb-20 w-full lg:w-[80vw] bg-gray-50 overflow-auto">
+    <div class="lg:p-10  p-5 w-full lg:w-[80vw] bg-gray-50 overflow-auto">
 
         <!-- Preloader -->
         <div v-if="loading" class="flex items-center justify-center h-screen w-full">
@@ -77,7 +85,7 @@ onMounted(savedCustomer);
         <!-- Main content -->
         <div v-else>
             <div class="flex items-center mb-5 lg:gap-10">
-                <router-link to="/" class="z-10">
+                <router-link to="/settings" class="z-10">
                     <span>
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                             class="lg:w-6 lg:h-6 h-5 w-5 cursor-pointer">
@@ -90,18 +98,15 @@ onMounted(savedCustomer);
                         </svg>
                     </span>
                 </router-link>
-                <h2 class="lg:text-2xl text-xl text-gray-900 font-bold text-center w-full lg:w-auto -ml-5">Customers
+                <h2 class="lg:text-2xl text-xl text-gray-900 font-bold text-center w-full lg:w-auto -ml-5">Trash
                 </h2>
             </div>
             <header
                 class="lg:bg-white lg:p-3 rounded-lg flex justify-between items-center border-2 border-gray-100 gap-5">
                 <div class="bg-gray-100 p-3 rounded flex-1 flex items-center justify-start gap-3 text-gray-600">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search customers"
+                    <input type="text" placeholder="Search customers in Trash"
                         class="outline-none w-full font-medium placeholder:text-gray-600" v-model="searchQuery">
-                </div>
-                <div class="items-center gap-5 hidden lg:flex">
-                    <router-link to="/customer/create" class="pr-btn hidden md:flex">Add New Customer</router-link>
                 </div>
             </header>
             <div class="lg:mt-4">
@@ -122,15 +127,11 @@ onMounted(savedCustomer);
                                 </span>
                             </span>
                             <div class="flex items-center justify-end gap-3">
-                                <router-link :to="`customer/${customer.id}/view`"
-                                    class="border-gray-200 border text-blue-600 hover:text-blue-700 w-8 h-8 flex justify-center items-center rounded">
-                                    <i class="fa-solid fa-eye"></i>
-                                </router-link>
-                                <router-link :to="`customer/${customer.id}/edit`"
+                                <span @click="restoreCustomer(customer.id)"
                                     class="border-gray-200 border text-blue-600 w-8 h-8 text-[16px] hover:text-blue-700 flex rounded justify-center items-center">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </router-link>
-                                <span @click="trashCustomer(customer.id)"
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                </span>
+                                <span @click="deleteCustomer(customer.id)"
                                     class="border-gray-200 border text-red-600 hover:text-red-700 w-8 h-8 text-[16px] flex rounded justify-center items-center"><i
                                         class="fa fa-trash"></i>
                                 </span>

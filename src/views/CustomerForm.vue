@@ -141,7 +141,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
 <template>
     <div class="lg:p-6 pb-10 bg-gray-50 w-full lg:w-[80vw]  overflow-y-auto">
         <form
-            class="max-full mx-auto bg-white border rounded-lg border-gray-300 md:p-10 p-5  pb-25  flex flex-col items-end space-y-6 [direction:rtl]">
+            class="max-full mx-auto bg-white border rounded-lg border-gray-300 lg:p-10  p-5 pb-20   flex flex-col items-end space-y-6 [direction:rtl]">
             <!-- Title -->
             <div class="flex justify-between w-full flex-col my-5 md:flex-row">
                 <h2 class="text-2xl font-bold text-gray-800 mb-10 text-right">
@@ -174,7 +174,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                         <label for="name" class="mb-1 font-semibold text-gray-700">نام:</label>
                         <input :disabled="props.mode === 'view'" v-model="customer.name" type="text" id="name"
                             name="name" placeholder="کسٹمر کا نام درج کریں"
-                            class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+                            class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none" />
                     </div>
 
                     <!-- Phone -->
@@ -182,7 +182,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                         <label for="phone" class="mb-1 font-semibold text-gray-700">موبائل نمبر:</label>
                         <input :disabled="props.mode === 'view'" type="tel" v-model="customer.phone" id="phone"
                             name="phone" placeholder="0300-1234567"
-                            class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+                            class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none" />
                     </div>
                 </div>
                 <!-- Address -->
@@ -190,7 +190,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                     <label for="address" class="mb-1 font-semibold text-gray-700">پتہ:</label>
                     <textarea :disabled="props.mode === 'view'" v-model="customer.address" id="address" name="address"
                         placeholder="گاہک کا پتہ درج کریں"
-                        class="border w-full border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+                        class="border w-full border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none"></textarea>
                 </div>
 
                 <!-- Measurements -->
@@ -201,75 +201,75 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                             <label for="shirt_length" class="mb-1 font-semibold">قمیض / کرتا لمبائی:</label>
                             <input :disabled="props.mode === 'view'" v-model="customer.shirt_length" type="number"
                                 id="shirt_length" name="shirt_length" placeholder="انچ میں درج کریں"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
                         <div class="flex gap-4">
                             <label for="shoulder" class="mb-1 font-semibold">کندھا:</label>
                             <input :disabled="props.mode === 'view'" type="number" v-model="customer.shoulder"
                                 id="shoulder" name="shoulder" placeholder="انچ میں درج کریں"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
                         <div class="flex gap-4">
                             <label for="sleeve" class="mb-1 font-semibold">بازو:</label>
                             <input :disabled="props.mode === 'view'" type="number" id="sleeve" v-model="customer.sleeve"
                                 name="sleeve" placeholder="انچ میں درج کریں"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
                         <div class="flex gap-4">
                             <label for="tera" class="mb-1 font-semibold">تیرا:</label>
                             <input :disabled="props.mode === 'view'" type="number" id="tera" v-model="customer.tera"
                                 name="tera" placeholder="انچ میں درج کریں"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
 
                         <div class="flex gap-4">
                             <label for="collar" class="mb-1 font-semibold">بین / کالر:</label>
                             <input :disabled="props.mode === 'view'" type="number" id="collar" v-model="customer.collar"
                                 name="collar" placeholder="انچ میں درج کریں"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
                         <div class="flex gap-4">
                             <label for="chest" class="mb-1 font-semibold">چھاتی:</label>
                             <input :disabled="props.mode === 'view'" type="number" id="chest" v-model="customer.chest"
                                 name="chest" placeholder="انچ میں درج کریں"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
                         <div class="flex gap-4">
                             <label for="waist" class="mb-1 font-semibold">کمر:</label>
                             <input :disabled="props.mode === 'view'" type="number" id="waist" name="waist"
                                 v-model="customer.waist" placeholder="انچ میں درج کریں"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
 
                         <div class="flex gap-4">
                             <label for="ghera" class="mb-1 font-semibold">گھیرا:</label>
                             <input :disabled="props.mode === 'view'" type="number" id="ghera" name="ghera"
                                 v-model="customer.ghera" placeholder="انچ میں درج کریں"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
                         <div class="flex gap-4">
                             <label for="cuff" class="mb-1 font-semibold">کف:</label>
                             <input :disabled="props.mode === 'view'" type="number" id="cuff" name="cuff"
                                 placeholder="انچ میں درج کریں" v-model="customer.cuff"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
                         <div class="flex gap-4">
                             <label for="shalwar_length" class="mb-1 font-semibold">شلوار لمبائی:</label>
                             <input :disabled="props.mode === 'view'" type="number" id="shalwar_length"
                                 name="shalwar_length" v-model="customer.shalwar_length" placeholder="انچ میں درج کریں"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
                         <div class="flex gap-4">
                             <label for="trouser_length" class="mb-1 font-semibold">پینٹ / ٹراؤزر لمبائی:</label>
                             <input :disabled="props.mode === 'view'" type="number" id="trouser_length"
                                 name="trouser_length" v-model="customer.trouser_length" placeholder="انچ میں درج کریں"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
                         <div class="flex gap-4">
                             <label for="bottom" class="mb-1 font-semibold">پائنچہ:</label>
                             <input :disabled="props.mode === 'view'" type="number" id="bottom" name="bottom"
                                 placeholder="انچ میں درج کریں" v-model="customer.bottom"
-                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500" />
+                                class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600" />
                         </div>
 
                     </div>
@@ -289,7 +289,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                 :disabled="props.mode === 'view'" class="hidden peer" />
 
                             <div class="h-4 w-4 rounded border flex items-center justify-center shrink-0" :class="[
-                                customer.double_salie ? 'bg-indigo-500' : '',
+                                customer.double_salie ? 'bg-blue-600' : '',
                                 customer.double_salie && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                             ]">
                                 <svg v-show="customer.double_salie" class="w-3 h-3 text-white" fill="none"
@@ -308,7 +308,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                 :disabled="props.mode === 'view'" class="hidden peer" />
 
                             <div class="h-4 w-4 rounded border flex items-center justify-center shrink-0" :class="[
-                                customer.front_pocket ? 'bg-indigo-500' : '',
+                                customer.front_pocket ? 'bg-blue-600' : '',
                                 customer.front_pocket && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                             ]">
                                 <svg v-show="customer.front_pocket" class="w-3 h-3 text-white" fill="none"
@@ -327,7 +327,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                 :disabled="props.mode === 'view'" class="hidden peer" />
 
                             <div class="h-4 w-4 rounded border flex items-center justify-center shrink-0" :class="[
-                                customer.zip_hip ? 'bg-indigo-500' : '',
+                                customer.zip_hip ? 'bg-blue-600' : '',
                                 customer.zip_hip && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                             ]">
                                 <svg v-show="customer.zip_hip" class="w-3 h-3 text-white" fill="none"
@@ -346,7 +346,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                 class="hidden peer" />
 
                             <div class="h-4 w-4 rounded border flex items-center justify-center shrink-0" :class="[
-                                customer.qaf ? 'bg-indigo-500' : '',
+                                customer.qaf ? 'bg-blue-600' : '',
                                 customer.qaf && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                             ]">
                                 <svg v-show="customer.qaf" class="w-3 h-3 text-white" fill="none" stroke="currentColor"
@@ -365,7 +365,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                 :disabled="props.mode === 'view'" class="hidden peer" />
 
                             <div class="h-4 w-4 rounded border  flex items-center justify-center shrink-0" :class="[
-                                customer.gool_bazu ? 'bg-indigo-500' : '',
+                                customer.gool_bazu ? 'bg-blue-600' : '',
                                 customer.gool_bazu && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                             ]">
                                 <svg v-show="customer.gool_bazu" class="w-3 h-3 text-white" fill="none"
@@ -384,7 +384,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                 class="hidden peer" />
 
                             <div class="h-4 w-4 rounded border flex items-center justify-center shrink-0" :class="[
-                                customer.stad ? 'bg-indigo-500' : '',
+                                customer.stad ? 'bg-blue-600' : '',
                                 customer.stad && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                             ]">
                                 <svg v-show="customer.stad" class="w-3 h-3 text-white" fill="none" stroke="currentColor"
@@ -403,7 +403,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                 :disabled="props.mode === 'view'" class="hidden peer" />
 
                             <div class="h-4 w-4 rounded border flex items-center justify-center shrink-0" :class="[
-                                customer.chak_pati ? 'bg-indigo-500' : '',
+                                customer.chak_pati ? 'bg-blue-600' : '',
                                 customer.chak_pati && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                             ]">
                                 <svg v-show="customer.chak_pati" class="w-3 h-3 text-white" fill="none"
@@ -422,7 +422,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                 :disabled="props.mode === 'view'" class="hidden peer" />
 
                             <div class="h-4 w-4 rounded border flex items-center justify-center shrink-0" :class="[
-                                customer.trouser_pocket ? 'bg-indigo-500' : '',
+                                customer.trouser_pocket ? 'bg-blue-600' : '',
                                 customer.trouser_pocket && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                             ]">
                                 <svg v-show="customer.trouser_pocket" class="w-3 h-3 text-white" fill="none"
@@ -441,7 +441,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                 :disabled="props.mode === 'view'" class="hidden peer" />
 
                             <div class="h-4 w-4 rounded border flex items-center justify-center shrink-0" :class="[
-                                customer.rashmi_dhaga ? 'bg-indigo-500' : '',
+                                customer.rashmi_dhaga ? 'bg-blue-600' : '',
                                 customer.rashmi_dhaga && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                             ]">
                                 <svg v-show="customer.rashmi_dhaga" class="w-3 h-3 text-white" fill="none"
@@ -460,7 +460,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                 class="hidden peer" />
 
                             <div class="h-4 w-4 rounded border flex items-center justify-center shrink-0" :class="[
-                                customer.jali ? 'bg-indigo-500' : '',
+                                customer.jali ? 'bg-blue-600' : '',
                                 customer.jali && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                             ]">
                                 <svg v-show="customer.jali" class="w-3 h-3 text-white" fill="none" stroke="currentColor"
@@ -488,7 +488,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                         :disabled="props.mode === 'view'" class="hidden peer" />
                                     <div class="h-4 w-4 rounded-full border flex items-center justify-center shrink-0"
                                         :class="[
-                                            customer.gala === 'calar' ? 'bg-indigo-500' : '',
+                                            customer.gala === 'calar' ? 'bg-blue-600' : '',
                                             customer.gala === 'calar' && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                                         ]">
                                         <div v-show="customer.gala === 'calar'" class="h-2 w-2 rounded-full bg-white">
@@ -502,7 +502,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                         :disabled="props.mode === 'view'" class="hidden peer" />
                                     <div class="h-4 w-4 rounded-full border flex items-center justify-center shrink-0"
                                         :class="[
-                                            customer.gala === 'baan' ? 'bg-indigo-500' : '',
+                                            customer.gala === 'baan' ? 'bg-blue-600' : '',
                                             customer.gala === 'baan' && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                                         ]">
                                         <div v-show="customer.gala === 'baan'" class="h-2 w-2 rounded-full bg-white">
@@ -522,7 +522,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                         :disabled="props.mode === 'view'" class="hidden peer" />
                                     <div class="h-4 w-4 rounded-full border flex items-center justify-center shrink-0"
                                         :class="[
-                                            customer.ghera_type === 'gool' ? 'bg-indigo-500' : '',
+                                            customer.ghera_type === 'gool' ? 'bg-blue-600' : '',
                                             customer.ghera_type === 'gool' && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                                         ]">
                                         <div v-show="customer.ghera_type === 'gool'"
@@ -536,7 +536,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                         :disabled="props.mode === 'view'" class="hidden peer" />
                                     <div class="h-4 w-4 rounded-full border flex items-center justify-center shrink-0"
                                         :class="[
-                                            customer.ghera_type === 'choras' ? 'bg-indigo-500' : '',
+                                            customer.ghera_type === 'choras' ? 'bg-blue-600' : '',
                                             customer.ghera_type === 'choras' && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                                         ]">
                                         <div v-show="customer.ghera_type === 'choras'"
@@ -556,7 +556,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                         :disabled="props.mode === 'view'" class="hidden peer" />
                                     <div class="h-4 w-4 rounded-full border flex items-center justify-center shrink-0"
                                         :class="[
-                                            customer.shalwar === 'simple' ? 'bg-indigo-500' : '',
+                                            customer.shalwar === 'simple' ? 'bg-blue-600' : '',
                                             customer.shalwar === 'simple' && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                                         ]">
                                         <div v-show="customer.shalwar === 'simple'"
@@ -570,7 +570,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                         :disabled="props.mode === 'view'" class="hidden peer" />
                                     <div class="h-4 w-4 rounded-full border flex items-center justify-center shrink-0"
                                         :class="[
-                                            customer.shalwar === 'trouser' ? 'bg-indigo-500' : '',
+                                            customer.shalwar === 'trouser' ? 'bg-blue-600' : '',
                                             customer.shalwar === 'trouser' && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                                         ]">
                                         <div v-show="customer.shalwar === 'trouser'"
@@ -590,7 +590,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                         :disabled="props.mode === 'view'" class="hidden peer" />
                                     <div class="h-4 w-4 rounded-full border flex items-center justify-center shrink-0"
                                         :class="[
-                                            customer.button === 'sada' ? 'bg-indigo-500' : '',
+                                            customer.button === 'sada' ? 'bg-blue-600' : '',
                                             customer.button === 'sada' && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                                         ]">
                                         <div v-show="customer.button === 'sada'" class="h-2 w-2 rounded-full bg-white">
@@ -604,7 +604,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                         :disabled="props.mode === 'view'" class="hidden peer" />
                                     <div class="h-4 w-4 rounded-full border flex items-center justify-center shrink-0"
                                         :class="[
-                                            customer.button === 'stylish' ? 'bg-indigo-500' : '',
+                                            customer.button === 'stylish' ? 'bg-blue-600' : '',
                                             customer.button === 'stylish' && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                                         ]">
                                         <div v-show="customer.button === 'stylish'"
@@ -624,7 +624,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                         :disabled="props.mode === 'view'" class="hidden peer" />
                                     <div class="h-4 w-4 rounded-full border flex items-center justify-center shrink-0"
                                         :class="[
-                                            customer.side_pocket === 'one' ? 'bg-indigo-500' : '',
+                                            customer.side_pocket === 'one' ? 'bg-blue-600' : '',
                                             customer.side_pocket === 'one' && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                                         ]">
                                         <div v-show="customer.side_pocket === 'one'"
@@ -638,7 +638,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                         :disabled="props.mode === 'view'" class="hidden peer" />
                                     <div class="h-4 w-4 rounded-full border flex items-center justify-center shrink-0"
                                         :class="[
-                                            customer.side_pocket === 'two' ? 'bg-indigo-500' : '',
+                                            customer.side_pocket === 'two' ? 'bg-blue-600' : '',
                                             customer.side_pocket === 'two' && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                                         ]">
                                         <div v-show="customer.side_pocket === 'two'"
@@ -652,7 +652,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                                         :disabled="props.mode === 'view'" class="hidden peer" />
                                     <div class="h-4 w-4 rounded-full border flex items-center justify-center shrink-0"
                                         :class="[
-                                            customer.side_pocket === 'none' ? 'bg-indigo-500' : '',
+                                            customer.side_pocket === 'none' ? 'bg-blue-600' : '',
                                             customer.side_pocket === 'none' && props.mode === 'view' ? '!bg-green-500' : 'cursor-pointer'
                                         ]">
                                         <div v-show="customer.side_pocket === 'none'"
@@ -672,7 +672,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
                     <label for="extra_info" class="mb-2 font-semibold">اضافی معلومات:</label>
                     <textarea :disabled="props.mode === 'view'" v-model="customer.extra_info" id="extra_info"
                         name="extra_info" rows="4" placeholder="یہاں خصوصی ہدایات یا اضافی معلومات درج کریں..."
-                        class="border w-full border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+                        class="border w-full border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none"></textarea>
                 </div>
             </div>
             <!-- Submit -->
@@ -693,7 +693,7 @@ const urduDate = currentDate.toLocaleDateString('ur-PK', options);
 
                 <!-- Save Button -->
                 <button to="/Customers" type="button" @click="saveCustomer" v-if="props.mode !== 'view'"
-                    class="md:px-8 md:py-3 px-5 py-2  cursor-pointer rounded-lg bg-indigo-500 text-white hover:bg-indigo-600 transition">
+                    class="md:px-8 md:py-3 px-5 py-2  cursor-pointer rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition">
                     محفوظ کریں
                 </button>
             </div>
@@ -774,9 +774,4 @@ h3 {
     margin-bottom: 40px;
 }
 
-input[type="checkbox"]:disabled,
-input[type="radio"]:disabled {
-    accent-color: #0ea5e9;
-    /* Tailwind's indigo-700 */
-}
 </style>

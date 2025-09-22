@@ -20,7 +20,7 @@
   }
 
   .pr-btn {
-    @apply bg-blue-600 text-white p-2 px-4 rounded border border-transparent cursor-pointer   hover:bg-blue-700
+    @apply bg-blue-600 text-white p-2 px-4 rounded border border-transparent cursor-pointer hover:bg-blue-700
   }
 
   .my-checkbox {
