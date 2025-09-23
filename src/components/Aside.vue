@@ -1,6 +1,10 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
+import { auth } from "@/firebase"; 
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "@/firebase";
 
 const buttons = [
   { label: "Dashboard", path: "/", icon: "fas fa-tachometer-alt" },
@@ -9,15 +13,23 @@ const buttons = [
   { label: "Settings", path: "/settings", icon: "fas fa-cog" },
 ];
 
-const user = ref(null);
+// Holds user data
+const user_data = ref(null);
 
-const getUser = () => {
-  let data = localStorage.getItem("user_data");
-  user.value = data ? JSON.parse(data) : null;
-};
+onMounted(() => {
+  onAuthStateChanged(auth, async (firebaseUser) => {
+    if (firebaseUser) {
+      const userRef = doc(db, "users", firebaseUser.uid);
 
-onMounted(getUser);
-setInterval(getUser, 1000); // 100ms is too frequent, maybe use 1s
+      // Real-time listener for user data
+      onSnapshot(userRef, (docSnap) => {
+        if (docSnap.exists()) {
+          user_data.value = docSnap.data();
+        }
+      });
+    }
+  });
+});
 </script>
 
 <template>
@@ -25,12 +37,12 @@ setInterval(getUser, 1000); // 100ms is too frequent, maybe use 1s
     <!-- Desktop Sidebar -->
     <div class="hidden lg:flex flex-col lg:h-screen lg:w-[20vw] justify-start items-start">
       <h2 class="text-[22px] text-center font-bold bg-blue-600 p-3 text-indigo-50 w-full">
-        {{ user?.shop }}
+        {{ user_data?.shop || "My Shop" }}
       </h2>
       <div class="flex flex-col w-full border-t border-blue-600">
-        <RouterLink
-          v-for="(item, index) in buttons"
-          :key="index"
+        <RouterLink 
+          v-for="(item, index) in buttons" 
+          :key="index" 
           :to="item.path"
           class="sideBtn flex items-center gap-2 px-4 py-4 border-b border-gray-100 transition rounded"
         >
@@ -44,9 +56,9 @@ setInterval(getUser, 1000); // 100ms is too frequent, maybe use 1s
     <div
       class="fixed bottom-0 left-0 w-full lg:hidden bg-white border-t border-gray-100 grid grid-cols-4 shadow-lg z-50"
     >
-      <RouterLink
-        v-for="(item, index) in buttons"
-        :key="index"
+      <RouterLink 
+        v-for="(item, index) in buttons" 
+        :key="index" 
         :to="item.path"
         class="flex sideBtn flex-col items-center transition p-3"
       >
