@@ -1,29 +1,22 @@
-# ./
+# One Promise – Tailor Management System
 
-This template should help get you started developing with Vue 3 in Vite.
+A web-based management system designed for tailoring shops to manage **customers, orders, and measurements** efficiently.
 
-## Recommended IDE Setup
+## 🧠 Tech Stack
+- Vue 3
+- Firebase (Backend Hosting)
+- Tailwind CSS
+- Vercel (Frontend Hosting)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## ✨ Features
+- Add / edit / delete customers
+- Store and manage body measurements
+- Dashboard analytics
+- Responsive and easy-to-use UI
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+## ⚙️ Setup
+```bash
+git clone https://github.com/axndev/tailor-management.git
+cd tailor-management
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
