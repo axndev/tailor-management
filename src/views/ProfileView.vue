@@ -1,12 +1,11 @@
 <script setup>
-import { reactive, onMounted, ref } from "vue";
+import { ref, onMounted } from "vue";
 import { auth } from "@/firebase";
 import { doc, setDoc, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase";
 import {
   onAuthStateChanged,
   updatePassword,
-  updateEmail,
   EmailAuthProvider,
   reauthenticateWithCredential,
   signOut,
@@ -15,7 +14,8 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const user = reactive({
+// ✅ Use ref() instead of reactive() for proper v-model reactivity
+const user = ref({
   shop: "One Promise Stitching",
   name: "",
   email: "",
@@ -31,7 +31,7 @@ const loading = ref(false);
 onMounted(() => {
   onAuthStateChanged(auth, async (firebaseUser) => {
     if (firebaseUser) {
-      user.email = firebaseUser.email;
+      user.value.email = firebaseUser.email;
 
       const userRef = doc(db, "users", firebaseUser.uid);
 
@@ -39,9 +39,9 @@ onMounted(() => {
       onSnapshot(userRef, async (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data();
-          user.name = data.name || "";
-          user.phone = data.phone || "";
-          user.shop = data.shop || "One Promise Stitching";
+          user.value.name = data.name || "";
+          user.value.phone = data.phone || "";
+          user.value.shop = data.shop || "One Promise Stitching";
         } else {
           // If no record exists yet, create one
           await setDoc(userRef, {
@@ -66,40 +66,40 @@ async function saveChanges() {
       return;
     }
 
-    if (!user.currentPassword) {
+    if (!user.value.currentPassword) {
       alert("⚠️ Please enter your current password to save changes.");
       return;
     }
 
-    // Re-authenticate user
+    // ✅ Re-authenticate user
     const credential = EmailAuthProvider.credential(
       currentUser.email,
-      user.currentPassword
+      user.value.currentPassword
     );
     await reauthenticateWithCredential(currentUser, credential);
 
-    // Update password if provided
-    if (user.password.length > 0) {
-      await updatePassword(currentUser, user.password);
+    // ✅ Update password if provided
+    if (user.value.password.length > 0) {
+      await updatePassword(currentUser, user.value.password);
     }
 
-    // Update Firestore profile
+    // ✅ Update Firestore profile
     const userRef = doc(db, "users", currentUser.uid);
     await setDoc(
       userRef,
       {
-        name: user.name,
-        phone: user.phone,
-        shop: user.shop,
-        email: user.email,
+        name: user.value.name,
+        phone: user.value.phone,
+        shop: user.value.shop,
+        email: user.value.email,
         updatedAt: new Date(),
       },
       { merge: true }
     );
 
     alert("✅ Profile updated successfully!");
-    user.password = ""; // clear new password field
-    user.currentPassword = ""; // clear current password
+    user.value.password = "";
+    user.value.currentPassword = "";
   } catch (err) {
     console.error(err);
     if (err.code === "auth/wrong-password") {
@@ -112,12 +112,14 @@ async function saveChanges() {
   }
 }
 
+// ✅ Get initials for profile avatar
 function getFirstLettersOfFirstTwoWords(str) {
   const words = str.trim().split(" ");
   if (words.length < 2) return words[0]?.[0] || "";
   return words[0][0] + words[1][0];
 }
 
+// ✅ Logout
 async function logout() {
   try {
     await signOut(auth);
@@ -203,7 +205,7 @@ async function logout() {
               <button
                 type="button"
                 @click="showCurrentPassword = !showCurrentPassword"
-                class="absolute right-2 top-[45px] text-sm text-blue-600 cursor-pointer"
+                class="absolute right-2 top-[45px] text-sm z-10 text-blue-600 cursor-pointer"
               >
                 {{ showCurrentPassword ? "Hide" : "Show" }}
               </button>
@@ -219,7 +221,7 @@ async function logout() {
               <button
                 type="button"
                 @click="showNewPassword = !showNewPassword"
-                class="absolute right-2 top-[45px] text-sm text-blue-600 cursor-pointer"
+                class="z-10 absolute right-2 top-[45px] text-sm text-blue-600 cursor-pointer"
               >
                 {{ showNewPassword ? "Hide" : "Show" }}
               </button>
@@ -232,7 +234,7 @@ async function logout() {
               class="pr-btn lg:w-[50%]"
               :disabled="loading"
             >
-              {{ loading ? "Saving..." : "Save Changes" }}
+              {{ loading ? "Saving..." : "Save" }}
             </button>
             <router-link
               to="/settings"
