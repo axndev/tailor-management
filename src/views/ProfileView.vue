@@ -133,7 +133,6 @@ async function logout() {
 </script>
 
 <template>
-<p class="text-gray-500 text-sm">Typed: {{ user.currentPassword }}</p>
   <div class="w-full lg:w-[80vw] bg-gray-50 overflow-auto h-full lg:p-10 p-5 pb-20">
     <div>
       <h2 class="text-xl lg:text-2xl text-gray-900 font-bold mb-1">Profile</h2>
